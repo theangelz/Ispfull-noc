@@ -21,7 +21,7 @@ export function Welcome() {
         <div className="flex items-center justify-center gap-3 mb-4">
           <div className="w-2 h-2 rounded-full bg-accent-cyan shadow-[0_0_10px_rgba(0,217,255,1)] animate-pulse" />
           <span className="text-accent-cyan font-bold tracking-[0.3em] text-sm">
-            SJNET NOC
+            IspFull NOC
           </span>
           <div className="w-2 h-2 rounded-full bg-accent-cyan shadow-[0_0_10px_rgba(0,217,255,1)] animate-pulse" />
         </div>

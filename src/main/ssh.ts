@@ -317,6 +317,10 @@ export function registerSshHandlers(
                 resolved = true;
                 resolve({ ok: true, pid });
               }
+              // Acorda devices que ficam mudos esperando input (MikroTik, alguns IOS)
+              setTimeout(() => {
+                try { tn.write("\r"); } catch {}
+              }, 600);
             })
             .catch((err) => {
               if (!resolved) {
@@ -368,6 +372,10 @@ export function registerSshHandlers(
               colorState,
             });
             resolve({ ok: true, pid });
+            // Acorda devices que ficam mudos esperando input (MikroTik, alguns IOS)
+            setTimeout(() => {
+              try { stream.write("\r"); } catch {}
+            }, 600);
             startMonitor(pid, sess, password, getWindow).catch(() => {});
           });
         });

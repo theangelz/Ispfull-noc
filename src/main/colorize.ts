@@ -112,10 +112,39 @@ export interface CompiledRule {
 const RESET = "\x1b[0m";
 const ANSI_RE = /\x1b\[[0-9;]*[A-Za-z]/g;
 
+// Detecta se a primeira coisa que o pattern pode matchar é word char.
+// Só envolvemos com lookbehind/lookahead nesses casos pra evitar matches
+// dentro de palavras maiores. Pra patterns como `\*`, `\.`, `[stuff]`, o
+// wrap quebra matches em contextos como `[*BRAS-NTFIBRA]`.
+function startsWithWord(p: string): boolean {
+  if (!p) return false;
+  if (p[0] === "\\") {
+    const c = p[1];
+    return c === "w" || c === "d" || c === "b" || c === "B";
+  }
+  return /[A-Za-z0-9_]/.test(p[0]);
+}
+
+function endsWithWord(p: string): boolean {
+  if (!p) return false;
+  const last = p[p.length - 1];
+  // Quantificadores/anchors no fim → não é word-ending
+  if ("*+?){}".includes(last)) return false;
+  // Caso especial: \w \d \b no fim
+  if (p.length >= 2 && p[p.length - 2] === "\\") {
+    return last === "w" || last === "d" || last === "b" || last === "B";
+  }
+  // Outro escape `\X` (não-word) ou caractere comum
+  if (p.length >= 2 && p[p.length - 2] === "\\") return false;
+  return /[A-Za-z0-9_]/.test(last);
+}
+
 export function compileRules(rules: ColorRule[]): CompiledRule[] {
   const compiled: CompiledRule[] = [];
   for (const r of rules) {
-    const wrapped = `(?<![A-Za-z0-9_])(?:${r.pattern})(?![A-Za-z0-9_])`;
+    const prefix = startsWithWord(r.pattern) ? "(?<![A-Za-z0-9_])" : "";
+    const suffix = endsWithWord(r.pattern) ? "(?![A-Za-z0-9_])" : "";
+    const wrapped = `${prefix}(?:${r.pattern})${suffix}`;
     let re: RegExp;
     try {
       re = new RegExp(wrapped, "g");

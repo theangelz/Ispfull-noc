@@ -1,6 +1,6 @@
 {
   "name": "sjnet-noc",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "SJNET NOC Terminal — premium SSH client for network engineering",
   "main": "dist-main/main/main.js",
   "type": "module",

@@ -8,9 +8,20 @@ import {
   Bold,
   Palette,
   FileText,
+  AlertTriangle,
 } from "lucide-react";
 import { useStore } from "../store";
 import type { KeywordRule } from "../types";
+
+function validateRegex(pattern: string): string | null {
+  if (!pattern) return "vazio";
+  try {
+    new RegExp(pattern);
+  } catch (e: any) {
+    return e?.message ?? "regex inválida";
+  }
+  return null;
+}
 
 const PRESET_COLORS = [
   "#FF4D4D", // red
@@ -154,6 +165,15 @@ export function KeywordEditor() {
             Nova regra
           </button>
         </div>
+        <div className="px-4 py-1.5 border-b border-border-soft bg-bg-soft text-[10px] text-fg-dim font-mono">
+          <span className="text-accent-yellow">dica:</span> caracteres especiais precisam de escape — pra pegar literal use
+          <code className="text-accent-cyan mx-1">\*</code> (asterisco),
+          <code className="text-accent-cyan mx-1">\.</code> (ponto),
+          <code className="text-accent-cyan mx-1">\?</code> (?),
+          <code className="text-accent-cyan mx-1">\(</code>,
+          <code className="text-accent-cyan mx-1">\[</code>, etc.
+          Texto comum (palavras) não precisa escapar.
+        </div>
 
         <div className="flex-1 overflow-y-auto">
           <table className="w-full text-[12px] font-mono">
@@ -271,25 +291,42 @@ function Row({
         />
       </td>
       <td className="px-3 py-1">
-        {editing ? (
-          <input
-            value={rule.pattern}
-            autoFocus
-            onChange={(e) => onUpdate({ pattern: e.target.value })}
-            onBlur={onBlur}
-            onKeyDown={(e) => e.key === "Enter" && onBlur()}
-            className="w-full bg-bg-soft border border-accent-cyan text-fg text-[12px] rounded px-2 py-0.5 font-mono"
-          />
-        ) : (
-          <button
-            onClick={onEdit}
-            className={`w-full text-left font-mono ${
-              rule.enabled ? "text-fg" : "text-fg-dim line-through"
-            } hover:text-accent-cyan`}
-          >
-            {rule.pattern || <span className="text-fg-dim italic">(vazio)</span>}
-          </button>
-        )}
+        {(() => {
+          const error = validateRegex(rule.pattern);
+          return (
+            <div className="flex items-center gap-1">
+              {editing ? (
+                <input
+                  value={rule.pattern}
+                  autoFocus
+                  onChange={(e) => onUpdate({ pattern: e.target.value })}
+                  onBlur={onBlur}
+                  onKeyDown={(e) => e.key === "Enter" && onBlur()}
+                  className={`flex-1 bg-bg-soft border text-fg text-[12px] rounded px-2 py-0.5 font-mono ${
+                    error ? "border-accent-red" : "border-accent-cyan"
+                  }`}
+                />
+              ) : (
+                <button
+                  onClick={onEdit}
+                  className={`flex-1 text-left font-mono ${
+                    rule.enabled ? "text-fg" : "text-fg-dim line-through"
+                  } hover:text-accent-cyan ${error ? "underline decoration-accent-red decoration-wavy" : ""}`}
+                >
+                  {rule.pattern || (
+                    <span className="text-fg-dim italic">(vazio)</span>
+                  )}
+                </button>
+              )}
+              {error && rule.pattern && (
+                <AlertTriangle
+                  className="w-3.5 h-3.5 text-accent-red shrink-0"
+                  aria-label={`regex inválida: ${error}. Pra pegar caractere literal, escapa com \\ (ex: \\* pra asterisco).`}
+                />
+              )}
+            </div>
+          );
+        })()}
       </td>
       <td className="px-3 py-1">
         <ColorCell color={rule.color} onChange={(c) => onUpdate({ color: c })} />

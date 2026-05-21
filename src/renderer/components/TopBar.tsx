@@ -28,7 +28,7 @@ export function TopBar() {
   };
   const aboutBox = () => {
     alert(
-      "SJNET NOC v0.1\nPremium SSH client para engenharia de rede\n\nDbl-click numa sessão da sidebar para abrir.\nCmd+, abre Settings."
+      "IspFull NOC v0.1\nPremium SSH client para engenharia de rede\n\nDbl-click numa sessão da sidebar para abrir.\nCmd+, abre Settings."
     );
   };
 
@@ -71,7 +71,7 @@ export function TopBar() {
         <div className="flex items-center gap-1.5 mr-4">
           <div className="w-1.5 h-1.5 rounded-full bg-accent-cyan shadow-[0_0_6px_rgba(0,217,255,0.8)]" />
           <span className="font-mono font-bold text-fg tracking-wider text-[11px]">
-            SJNET <span className="text-accent-cyan">NOC</span>
+            IspFull <span className="text-accent-cyan">NOC</span>
           </span>
         </div>
         <div className="flex items-center gap-3">

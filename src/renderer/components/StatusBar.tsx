@@ -49,7 +49,9 @@ export function StatusBar() {
       <div className="h-6 bg-[#0b0b0b] border-t border-border-soft flex items-center px-3 text-[10px] text-fg-dim font-mono">
         <Activity className="w-3 h-3 mr-1.5 text-fg-dim" />
         <span>pronto</span>
-        <span className="ml-auto">{new Date(now).toLocaleTimeString()}</span>
+        <span className="ml-auto text-[#A6D8FF] font-semibold">
+          {new Date(now).toLocaleTimeString()}
+        </span>
       </div>
     );
   }
@@ -109,7 +111,9 @@ export function StatusBar() {
         <Network className="w-3 h-3 text-fg-dim" />
         <span className="uppercase text-[9px]">{m?.device ?? "?"}</span>
       </span>
-      <span className="ml-auto">{new Date(now).toLocaleTimeString()}</span>
+      <span className="ml-auto text-[#A6D8FF] font-semibold">
+        {new Date(now).toLocaleTimeString()}
+      </span>
     </div>
   );
 }
