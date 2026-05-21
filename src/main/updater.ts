@@ -48,7 +48,7 @@ export function registerUpdaterHandlers(getWindow: () => BrowserWindow | null) {
       autoUpdater.setFeedURL({
         provider: "github",
         owner: "theangelz",
-        repo: "sjnet-noc",
+        repo: "Ispfull-noc",
       });
       const r = await autoUpdater.checkForUpdates();
       const currentVersion = app.getVersion();

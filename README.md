@@ -14,7 +14,7 @@ Premium SSH/Telnet client para engenharia de rede. Estética NOC dark com colori
 
 ## Download
 
-Veja [Releases](https://github.com/theangelz/sjnet-noc/releases) pra baixar:
+Veja [Releases](https://github.com/theangelz/Ispfull-noc/releases) pra baixar:
 - **macOS**: `.dmg` (Intel) ou `.zip`
 - **Windows**: `.exe` instalador ou portable
 - **Linux**: `.AppImage`
