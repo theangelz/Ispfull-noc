@@ -37,7 +37,7 @@ async function createWindow() {
     await mainWindow.loadURL("http://localhost:5173");
     // DevTools só sob demanda — abre com Cmd+Option+I se precisar
   } else {
-    await mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
+    await mainWindow.loadFile(path.join(__dirname, "../../dist/index.html"));
   }
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
