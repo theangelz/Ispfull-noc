@@ -6,9 +6,9 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently -k -n VITE,ELECTRON -c blue,magenta \"vite\" \"npm:dev:electron\"",
-    "dev:electron": "wait-on tcp:5173 && tsc -p tsconfig.main.json && mkdir -p dist-main/preload && cp src/preload/preload.cjs dist-main/preload/preload.cjs && cross-env NODE_ENV=development electron dist-main/main/main.js",
+    "dev:electron": "wait-on tcp:5173 && tsc -p tsconfig.main.json && shx mkdir -p dist-main/preload && shx cp src/preload/preload.cjs dist-main/preload/preload.cjs && cross-env NODE_ENV=development electron dist-main/main/main.js",
     "build:renderer": "vite build",
-    "build:main": "tsc -p tsconfig.main.json && mkdir -p dist-main/preload && cp src/preload/preload.cjs dist-main/preload/preload.cjs",
+    "build:main": "tsc -p tsconfig.main.json && shx mkdir -p dist-main/preload && shx cp src/preload/preload.cjs dist-main/preload/preload.cjs",
     "build": "npm run build:renderer && npm run build:main",
     "dist": "npm run build && electron-builder",
     "dist:mac": "npm run build && electron-builder --mac",
@@ -39,6 +39,7 @@
     "electron": "^33.3.1",
     "electron-builder": "^25.1.8",
     "postcss": "^8.4.49",
+    "shx": "^0.4.0",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2",
     "vite": "^6.0.7",
@@ -73,18 +74,24 @@
       {
         "from": "resources/keywords",
         "to": "keywords",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "win": {
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         },
         {
           "target": "portable",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ]
     },
@@ -92,7 +99,9 @@
       "target": [
         {
           "target": "AppImage",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "category": "Network"
